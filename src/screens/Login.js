@@ -1,14 +1,63 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
-import { jsx, css } from '@emotion/react';
-import { Input, FormGroup, ErrorMessage, Button } from '../componets/lib';
+import { jsx } from '@emotion/react';
+import React from 'react';
+import { useReducer } from 'react';
+import { Link } from 'react-router-dom';
+import { Input, FormGroup, ErrorMessage, Button, Spinner } from '../componets/lib';
+import { useAsync } from '../utils/hooks/useAsync';
+import home from '../assets/home.jpg';
 
+const validationReducer = (state = { validPassword: true, validUsername: true}, action) => {
+    switch(action.type) {
+        case 'INVALID_PASSWORD':
+            return { ...state, validPassword: false}
+        case 'INVALID_USERNAME':
+            return { ...state, validUsername: false}
+        case 'VALID_PASSWORD':
+            return { ...state, validPassword: true}
+        case 'VALID_USERNAME':
+            return { ...state, validUsername: true}
+        default:
+            throw new Error('invalid action type');
+    }
+}
+const Login = ({handleSubmit}) => {
 
+    const { error, isError, isLoading, run } = useAsync()
+    const [{ validPassword, validUsername}, dispatch] = useReducer(validationReducer, { validPassword: true, validUsername: true});
 
+    const submit = (e) => {
+        e.preventDefault();
 
-const Login = () => {
+        const {username, password} = e.target.elements
+        const isValidPassword = password.value.trim().length;
+        const isValidUsername = username.value.trim().length;
+        if(!isValidUsername) {
+            dispatch({type: 'INVALID_USERNAME'})
+        } else {
+            dispatch({type: 'VALID_USERNAME'}) 
+        }
+        if(!isValidPassword) {
+            dispatch({ type: 'INVALID_PASSWORD'});
+        } else {
+            dispatch({type: 'VALID_PASSWORD'})
+        }
+
+        
+        if(isValidPassword && isValidUsername) {
+            run(handleSubmit({
+                username: username.value,
+                password: password.value
+            }))
+        }
+        
+    }
     return (
-        <div css={{ height: '650px', background: '#FDFDFD', width: 'calc(100% - 700px)' }}>
+        <>
+            <div  css={{height: '650px', width: '700px', background: `url(${home})`,backgroundSize: 'cover', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat'}}>
+            </div>
+            <div css={{ height: '650px', background: '#FDFDFD', width: 'calc(100% - 700px)' }}>
             <h1 css={{
                 fontStyle: 'normal',
                 fontsize: '24px',
@@ -19,13 +68,17 @@ const Login = () => {
                 color: '#253858',
                 textAlign: 'center',
             }}>WEB CHAT</h1>
+            <div css={{ width: '100%', display: 'flex', justifyContent: 'center'}}>
+               {isError ? (<ErrorMessage css={{ width: '360px', marginTop: '33px'}}>{error.message}</ErrorMessage>) : null}
+            </div>
+            
             <form css={{
-                marginTop: '100px',
+                marginTop: !isError ? '100px' : '33px',
                 display: 'flex',
                 alignItems: 'center',
                 flexDirection: 'column'
             }}
-                onSubmit={(e) => e.preventDefault()}>
+                onSubmit={submit}>
                 <h2
                     css={{
                         fontFamily: '"Roboto", sans-serif',
@@ -39,18 +92,18 @@ const Login = () => {
                     }}>Sign in
                 </h2>
                 <FormGroup>
-                    <Input placeholder='username' type='text' />
-                    <ErrorMessage>Username can only numbers and letters</ErrorMessage>
+                    <Input id='username' placeholder='username' type='text' />
+                    {!validUsername ? <ErrorMessage>Username is required</ErrorMessage> : null}
                 </FormGroup>
                 <FormGroup>
-                    <Input placeholder='password' type='password' />
-                    <ErrorMessage>Password is required</ErrorMessage>
+                    <Input placeholder='password' id='password' type='password' />
+                    {!validPassword ? <ErrorMessage>Password is required</ErrorMessage> : null}
                 </FormGroup>
                 <div css={{
                     width: '350px',
                     display: 'flex',
                 }}>
-                    <Button type='submit'>Sign in</Button>
+                    <Button type='submit'>{isLoading ? (<Spinner />) : 'Sign in'}</Button>
                     <p css={{
                         marginLeft: '16px',
                         fontFamily: 'Roboto',
@@ -59,11 +112,13 @@ const Login = () => {
                         fontSize: '14px',
                         lineHeight: '16px',
                         color: 'rgba(63, 84, 64, 0.6)'
-                    }}>not signed up yet, <span css={{ color: '#253858', textDecoration: 'underline', textUnderlineOffset: '3px' }}>sign up here</span></p>
+                    }}>not signed up yet, <Link to='/signup' css={{ color: '#253858', textDecoration: 'underline', textUnderlineOffset: '3px' }}>sign up here</Link></p>
                 </div>
 
             </form>
         </div>
+        </>
+        
     )
 }
 

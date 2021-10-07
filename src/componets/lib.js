@@ -1,12 +1,46 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
-import { jsx } from '@emotion/react';
+import { jsx, keyframes } from '@emotion/react';
 import styled from '@emotion/styled/macro';
+import { FaSpinner } from 'react-icons/fa'
 
-/* sign in */
+export const Root = styled.div({
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+});
+export const Container = styled.div({
+    height: '650px',
+    width: '1152px',
+    boxShadow: '0px 3px 6px #EBECF0',
+    display: 'flex', flexDirection: 'row'
+})
+const spin = keyframes({
+    '0%': { transform: 'rotate(0deg)' },
+    '100%': { transform: 'rotate(360deg)' },
+})
+export const Spinner = styled(FaSpinner)({
+    animation: `${spin} 1s linear infinite`,
+})
 
-
-
+export function FullPageSpinner() {
+    return (
+        <div
+            css={{
+                fontSize: '4em',
+                height: '100vh',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
+        >
+            <Spinner />
+        </div>
+    )
+}
 export const Button = styled.button({
     border: 'none',
     display: 'block',
@@ -45,19 +79,25 @@ export const Input = styled.input({
     },
 });
 export const ErrorMessage = styled.p({
-        width: 'calc(100% - 12px)',
-        fontFamily: '"Roboto", sans-serif',
-        fontStyle: 'normal',
-        fontWeight: '400',
-        lineHeight: '34px',
-        height: '34px',
-        paddingLeft: '16px',
-        background: ' #F8DDDD',
-        color: '#FF4444',
-        fontSize: '14px',
-        verticalAlign: 'middle',
-        marginTop: '0px',
-        marginBottom: '0px'
+    width: 'calc(100% - 12px)',
+    fontFamily: '"Roboto", sans-serif',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    lineHeight: '34px',
+    height: '34px',
+    paddingLeft: '16px',
+    background: ' #F8DDDD',
+    color: '#FF4444',
+    fontSize: '14px',
+    verticalAlign: 'middle',
+    marginTop: '0px',
+    marginBottom: '0px'
 })
+export const FullPageError = ({message}) => (<div css={{
+    height: '100vh',
+    display: 'flex',
 
+    }}>
+        <p role='alert' css={{ color: 'red', fontSize: '24px', marginLeft: '24px' }}>{message}</p>
+    </div>)
 
