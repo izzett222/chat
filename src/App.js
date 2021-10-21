@@ -4,7 +4,8 @@ import UnauthorizedApp from './UnauthorizedApp';
 import client from './utils/api-client'
 import * as auth from './auth-provider';
 import {useAsync} from './utils/hooks/useAsync';
-import { FullPageSpinner, FullPageError} from './componets/lib'
+import { FullPageSpinner, FullPageError} from './componets/lib';
+import AuthorizedApp from './AuthorizedApp';
 
 const getUser = async () => {
   let user = null;
@@ -44,7 +45,7 @@ function App() {
   if(isError) {
     return <FullPageError message={error.message} />
   }
-  return user ? <h1>{`${user.username} logged in`}</h1>  : <Router><UnauthorizedApp login={login} signup={signup} /></Router>
+  return user ? <AuthorizedApp user={user} logout={logout} />  : <Router><UnauthorizedApp login={login} signup={signup} /></Router>
 }
 
 export default App;

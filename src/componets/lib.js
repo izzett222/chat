@@ -4,6 +4,26 @@ import { jsx, keyframes } from '@emotion/react';
 import styled from '@emotion/styled/macro';
 import { FaSpinner } from 'react-icons/fa'
 
+export const MenuButton = styled.button({
+    border: 'none',
+    padding: 0,
+    background: 'none',
+    fontFamily: 'Roboto',
+    fontSize: 16,
+	cursor: 'pointer',
+	outline: 'inherit',
+    color: 'white', 
+})
+export const IconButton = styled.button({
+    border: 'none',
+    padding: 0,
+    background: 'none',
+    color: 'inherit',
+    font: 'inherit',
+	cursor: 'pointer',
+	outline: 'inherit',
+    zIndex: 10
+})
 export const Root = styled.div({
     width: '100%',
     height: '100%',
@@ -14,6 +34,7 @@ export const Root = styled.div({
 export const Container = styled.div({
     height: '650px',
     width: '1152px',
+    position: 'relative',
     boxShadow: '0px 3px 6px #EBECF0',
     display: 'flex', flexDirection: 'row'
 })
@@ -93,11 +114,11 @@ export const ErrorMessage = styled.p({
     marginTop: '0px',
     marginBottom: '0px'
 })
-export const FullPageError = ({message}) => (<div css={{
+export const FullPageError = ({ message }) => (<div css={{
     height: '100vh',
     display: 'flex',
 
-    }}>
-        <p role='alert' css={{ color: 'red', fontSize: '24px', marginLeft: '24px' }}>{message}</p>
-    </div>)
+}}>
+    <p role='alert' css={{ color: 'red', fontSize: '24px', marginLeft: '24px' }}>{message}</p>
+</div>)
 
