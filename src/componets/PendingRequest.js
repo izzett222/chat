@@ -1,8 +1,9 @@
 /** @jsxRuntime classic /
 /* @jsx jsx */
 import { jsx } from "@emotion/react";
+// eslint-disable-next-line no-unused-vars
 import React from "react";
-import { IconButton, Spinner } from "./lib";
+import { IconButton } from "./lib";
 import closeSide from '../assets/closeSide.svg';
 import Request from './Request';
 

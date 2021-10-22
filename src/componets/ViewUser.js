@@ -22,7 +22,7 @@ const sendFriendRequest = async (friendId) => {
 const ViewUser = ({ searchedUser, user}) => {
     // state to know when the useEffeect should run
     const [sendRequest, setSendRequest] = useState(false);
-    const { data, run, isSuccess, isLoading } = useAsync();
+    const { run, isSuccess, isLoading } = useAsync();
 
     useEffect(() => {
         if (!sendRequest) return

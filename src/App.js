@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import react, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom'
 import UnauthorizedApp from './UnauthorizedApp';
@@ -19,7 +20,6 @@ const getUser = async () => {
 
 
 function App() {
-  // const [user, setUser] = useState(null);
   const { data: user, error, isError, isIdle, isLoading, run, setData } = useAsync();
 
   useEffect(() => {

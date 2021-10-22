@@ -19,13 +19,11 @@ const respondToRequest = async (response, friendId) => {
 
 
 const Request = ({ user }) => {
-    console.log(user);
     const [response, setResponse] = useState(null);
-    const { isSuccess, isError, isLoading, run } = useAsync();
+    const { isSuccess, isLoading, run } = useAsync();
 
     useEffect(() => {
         if (!response) return;
-        console.log('run useEffect')
         run(respondToRequest(response, user.requestId))
     }, [response, run, user.requestId])
 
