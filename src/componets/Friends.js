@@ -3,8 +3,8 @@
 import { jsx } from "@emotion/react";
 import userImagePlaceholder from '../assets/user.png';
 
-const Friend = ({ user, isViewed = false }) => {
-    return <div css={{ 
+const Friend = ({ user, setChatId, chatId }) => {
+    return <div onClick={() => setChatId(user.userId)} css={{ 
         width: '305px',
         height: '54px',
         border: '1px solid #EEF4EF',
@@ -12,8 +12,8 @@ const Friend = ({ user, isViewed = false }) => {
         display: 'flex'
         }}>
     <div css={{display: 'flex', marginRight: '8px'}}>
-        { isViewed ? <div css={{ background: '#0052CC', width: 7, height: 54, marginRight: '4px' }}></div> : null}
-        <img css={{ height: 35, width: 35, borderRadius: '50%', display: 'block', marginTop: '9px', marginLeft: isViewed ? 0 : '8px'}} src={userImagePlaceholder} alt='user placeholder' />
+        { (chatId === user.userId) ? <div css={{ background: '#0052CC', width: 7, height: 54, marginRight: '4px' }}></div> : null}
+        <img css={{ height: 35, width: 35, borderRadius: '50%', display: 'block', marginTop: '9px', marginLeft: (chatId === user.userId) ? 0 : '8px'}} src={userImagePlaceholder} alt='user placeholder' />
     </div>
     <div css={{paddingTop: 9, marginRight: 'auto'}}>
         <p css={{
@@ -33,7 +33,7 @@ const Friend = ({ user, isViewed = false }) => {
             fontSize: '12px',
             lineHeight: '14px',
             color: '#5E6C84'
-            }}>whatsup, mn, how is it hanging</p>
+            }}>{user.message[user.message?.length - 1]?.message}</p>
     </div>
     <div css={{ marginRight: '16px', display: 'flex', height: '100%', justifyContent: 'center', alignItems: 'center'}}><p css={{
         fontFamily: 'Roboto',
@@ -47,9 +47,9 @@ const Friend = ({ user, isViewed = false }) => {
 
 
 
-const Friends = ({ users }) => {
+const Friends = ({ users, setChatId, chatId }) => {
     return <div css={{ width: '305px', flexGrow: '1', background: '#fff'}}>
-            {users.map((user) => <Friend key={user.userId} user={user} />)}
+            {users.map((user) => <Friend key={user.userId} chatId={chatId} user={user} setChatId={setChatId} />)}
 
 
     </div>

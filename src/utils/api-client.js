@@ -10,7 +10,6 @@ const client = (path, { token, data, headers: customHeaders, ...customOptions}) 
         },
         ...customOptions
     };
-    console.log(options);
     return window.fetch(`http://localhost:3005/api/${path}`, options).then(async response => {
         // when user doesn't have the right authorization we will reject the promise and reload the page
         if(response.status === 401) {
