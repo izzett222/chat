@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Container, Root } from "./componets/lib";
 import Menu from "./componets/Menu";
 import ViewUser from "./componets/ViewUser";
-import ChatRoom from "./componets/ChatRoom";
+import ChatRoom from "./componets/chatRoom";
 import * as auth from './auth-provider';
 import Friends from "./componets/Friends";
 import socket from "./utils/socket";
