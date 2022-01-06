@@ -2,60 +2,38 @@
 /* @jsx jsx */
 import { jsx } from '@emotion/react';
 // eslint-disable-next-line no-unused-vars
-import React from 'react';
-import { useReducer } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Input, FormGroup, ErrorMessage, Button, Spinner } from '../componets/lib';
 import { useAsync } from '../utils/hooks/useAsync';
-import home from '../assets/home.jpg';
-
-const validationReducer = (state = { validPassword: true, validUsername: true }, action) => {
-    switch (action.type) {
-        case 'INVALID_PASSWORD':
-            return { ...state, validPassword: false }
-        case 'INVALID_USERNAME':
-            return { ...state, validUsername: false }
-        case 'VALID_PASSWORD':
-            return { ...state, validPassword: true }
-        case 'VALID_USERNAME':
-            return { ...state, validUsername: true }
-        default:
-            throw new Error('invalid action type');
-    }
-}
 
 
 const Signup = ({ handleSubmit }) => {
-    const { error, isError, isLoading, run } = useAsync()
-    const [{ validPassword, validUsername }, dispatch] = useReducer(validationReducer, { validPassword: true, validUsername: true });
+    const { error, isError, isLoading, run, reset } = useAsync()
     const submit = (e) => {
         e.preventDefault();
         const { username, password } = e.target.elements
-        const isValidPassword = password.value.trim().length > 2;
-        const isValidUsername = username.value.match(/^[a-z0-9]+$/i)
-        if (!isValidUsername) {
-            dispatch({ type: 'INVALID_USERNAME' })
-        } else {
-            dispatch({ type: 'VALID_USERNAME' })
-        }
-        if (!isValidPassword) {
-            dispatch({ type: 'INVALID_PASSWORD' });
-        } else {
-            dispatch({ type: 'VALID_PASSWORD' })
-        }
-        if (isValidPassword && isValidUsername) {
-            run(handleSubmit({
-                username: username.value,
-                password: password.value
-            }))
-        }
+        run(handleSubmit({
+            username: username.value,
+            password: password.value
+        }))
 
     }
+    useEffect(() => {
+        if (!error) return;
+        const timeOutId = setTimeout(() => reset(), 5000);
+        return () => clearTimeout(timeOutId);
+    }, [error, reset])
     return (
         <>
-            <div css={{ height: '650px', width: '700px', background: `url(${home})`, backgroundSize: 'cover', backgroundPosition: 'center center', backgroundRepeat: 'no-repeat' }}>
-            </div>
-            <div css={{ height: '650px', background: '#FDFDFD', width: 'calc(100% - 700px)' }}>
+            <div css={{
+                height: '650px',
+                background: '#FDFDFD',
+                width: '400px',
+                "@media (max-width: 400px)": {
+                    width: '100%'
+                }
+            }}>
                 <h1 css={{
                     fontStyle: 'normal',
                     fontsize: '24px',
@@ -89,16 +67,19 @@ const Signup = ({ handleSubmit }) => {
                         }}>Sign up
                     </h2>
                     <FormGroup>
-                        <Input id='username' placeholder='username' type='text' />
-                        {!validUsername ? <ErrorMessage>Username can only numbers and letters</ErrorMessage> : null}
+                        <Input id='username' placeholder='username' type='text' required />
                     </FormGroup>
                     <FormGroup>
-                        <Input id='password' placeholder='password' type='password' />
-                        {!validPassword ? <ErrorMessage>Password is required</ErrorMessage> : null}
+                        <Input id='password' placeholder='password' type='password' required />
                     </FormGroup>
                     <div css={{
                         width: '350px',
                         display: 'flex',
+                        "@media (max-width: 400px)": {
+                            width: 'calc(100% - 32px)',
+                            marginLeft: 16,
+                            marginRight: 16
+                        }
                     }}>
                         <Button type='submit'>{isLoading ? (<Spinner />) : 'Sign up'}</Button>
                         <p css={{
@@ -109,7 +90,7 @@ const Signup = ({ handleSubmit }) => {
                             fontSize: '14px',
                             lineHeight: '16px',
                             color: 'rgba(63, 84, 64, 0.6)'
-                        }}>already signed up, <Link to='./login' css={{ color: '#253858', textDecoration: 'underline', textUnderlineOffset: '3px' }}>login here</Link></p>
+                        }}>already signed up, <Link to='/' css={{ color: '#253858', textDecoration: 'underline', textUnderlineOffset: '3px' }}>login here</Link></p>
                     </div>
 
                 </form>

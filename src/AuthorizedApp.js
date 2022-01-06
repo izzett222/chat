@@ -72,7 +72,7 @@ const AuthorizedApp = ({ user, logout }) => {
     const returnSideBarChildren = (content) => {
         switch (content) {
             case 'menu':
-                return <SideBarMenu setSideBarContent={setSideBarContent} setOpen={setOpenSideBar} />
+                return <SideBarMenu setSideBarContent={setSideBarContent} setOpen={setOpenSideBar} logout={logout} />
             case 'pending_request':
                 return <PendingRequest setSideBarContent={setSideBarContent} request={pendingRequest} />
             default:

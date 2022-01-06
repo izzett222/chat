@@ -7,8 +7,9 @@ import userImagePlaceholder from '../assets/user.png';
 import { IconButton, MenuButton } from "./lib";
 import closeSide from '../assets/closeSide.svg';
 import friendRequestIcon from '../assets/friendRequest.svg';
+import logoutIcon from '../assets/logout.svg';
 
-const SideBarMenu = ({ setOpen, setSideBarContent }) => {
+const SideBarMenu = ({ setOpen, setSideBarContent, logout }) => {
     return (
         <>
                 <div css={{
@@ -33,6 +34,7 @@ const SideBarMenu = ({ setOpen, setSideBarContent }) => {
                     marginTop: 32
                 }}>
                 <MenuButton onClick={() => setSideBarContent('pending_request')} css={{ display: 'flex'}}><img src={friendRequestIcon} alt='friend request icon' /> <span css={{ marginLeft: '8px'}}>Requests</span></MenuButton>
+                <MenuButton onClick={() => logout()} css={{ display: 'flex', img: { position: 'relative', left: -5}}}><img src={logoutIcon} alt='logout icon' /> <span css={{ marginLeft: '8px'}}>Log out</span></MenuButton>
                 </div>
             </div>
 
