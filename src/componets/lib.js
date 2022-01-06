@@ -13,6 +13,7 @@ export const MenuButton = styled.button({
 	cursor: 'pointer',
 	outline: 'inherit',
     color: 'white', 
+    marginBottom: 16
 })
 export const IconButton = styled.button({
     border: 'none',
@@ -79,7 +80,12 @@ export const Button = styled.button({
 export const FormGroup = styled.div({
     width: '350px',
     maxWidth: '400px',
-    marginBottom: '16px'
+    marginBottom: '16px',
+    "@media (max-width: 400px)": {
+        width: 'calc(100% - 32px)',
+        marginLeft: 16,
+        marginRight: 16
+    }
 })
 export const Input = styled.input({
     border: 'none',
